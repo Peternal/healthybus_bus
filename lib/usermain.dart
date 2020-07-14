@@ -73,7 +73,7 @@ class BottomNavigationWidgetState extends State<UserMain> with TickerProviderSta
                 color: _bottomNavigationColor,
               ),
               title: Text(
-                'Pay',
+                'Scan',
                 style: TextStyle(color: _bottomNavigationColor),
               )),
           BottomNavigationBarItem(
