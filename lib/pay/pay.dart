@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../logout.dart';
 import '../app_theme.dart';
 import 'ui_view/notice_view.dart';
+import 'package:barcode_scan/barcode_scan.dart';
 
 class PayScreen extends StatefulWidget {
   const PayScreen({Key key, this.animationController}) : super(key: key);
@@ -52,7 +54,23 @@ class _PayScreenState extends State<PayScreen>
     super.initState();
   }
 
-
+  Future scan() async {
+    try {
+      ScanResult barcode = await BarcodeScanner.scan();
+      print(barcode.toString());
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+//          this.barcode.= 'The user did not grant the camera permission!';
+      } else {
+//        this.barcode.toString() = 'Unknown error: $e';
+      }
+    } on FormatException{
+//     this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)';
+    } catch (e) {
+//      this.barcode = 'Unknown error: $e';
+    }
+//    print(barcode);
+  }
 
   void addAllListData() {
     const int count = 3;
@@ -95,29 +113,28 @@ class _PayScreenState extends State<PayScreen>
   }
 
   Widget getMainListViewUI() {
-    return FutureBuilder<bool>(
-      future: getData(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
-        } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
+    return Scaffold(
+      body: new Container(
+          alignment: Alignment.center,
+          child: new Container(
+            child: new RaisedButton(
+                padding: new EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0), //padding
+                child: new Text(
+                  'Start to scan',
+                  style: new TextStyle(
+                    fontSize: 18.0, //textsize
+                    color: Colors.white,// textcolor
+                  ),
+                ),
+                color: Theme.of(context).accentColor,
+                elevation: 4.0,  //shadow
+                splashColor: Colors.blueGrey,
+                onPressed: () {
+                  //click event: start to scan
+                  scan();
+                }
             ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              widget.animationController.forward();
-              return listViews[index];
-            },
-          );
-        }
-      },
+          )),
     );
   }
 
