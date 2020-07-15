@@ -95,6 +95,9 @@ class _Register extends State<Register> {
               SpUtil.preferences.setDouble("balance", response.data["info"][2]);
               SpUtil.preferences.setString("carnumber", response.data["info"][3]);
               SpUtil.preferences.setString("id_pay", response.data["info"][4]);
+
+
+
               List<String> trip = [];
               SpUtil.preferences.setStringList("trip", trip);
               Navigator.of(context).pushAndRemoveUntil(

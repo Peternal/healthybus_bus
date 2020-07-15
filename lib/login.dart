@@ -85,6 +85,7 @@ class _LoginState extends State<Login> {
             SpUtil.preferences.setString("carnumber", response.data["info"][3]);
             SpUtil.preferences.setString("id_pay", response.data["info"][4]);
 
+
             List<String> trip = [];
 
             response = await dio.get("/get_trip");

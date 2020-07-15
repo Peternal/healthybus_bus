@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         var cookieJar = CookieJar();
         dio.interceptors..add(LogInterceptor())..add(CookieManager(cookieJar));
         try {
-          Response response = await dio.post("/passenger_login", data: {"phone":ph, "password":pwd});
+          Response response = await dio.post("/car_login", data: {"phone":ph, "password":pwd});
           print(response.data["msg"]);
           if (response.data["msg"] == "login success"){
             response = await dio.get("/get_info");
@@ -78,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SpUtil.preferences.setDouble("balance", response.data["info"][2]);
             SpUtil.preferences.setString("carnumber", response.data["info"][3]);
             SpUtil.preferences.setString("id_pay", response.data["info"][4]);
+
 
             List<String> trip = [];
 
